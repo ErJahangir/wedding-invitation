@@ -31,12 +31,10 @@ function App() {
     }
   }, [config]);
   const handleOpenInvitation = async () => {
-    // Start audio playback during user interaction
     await audioControls.play();
     setIsInvitationOpen(true);
   };
 
-  // Show loading state
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 to-pink-50">
