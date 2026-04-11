@@ -1,7 +1,7 @@
 import { useConfig } from "@/features/invitation/hooks/use-config";
 import { Clock, MapPin, CalendarCheck, ExternalLink } from "lucide-react";
 import { motion } from "framer-motion";
-import { formatEventDate } from "@/lib/format-event-date";
+import { formatEventDate } from "@/utils/date";
 
 export default function Location() {
   const config = useConfig(); // Use hook to get config from API or fallback to static

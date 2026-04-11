@@ -1,5 +1,4 @@
-import { useInvitation } from "@/features/invitation/invitation-context";
-import staticConfig from "@/config/config";
+import { useInvitation } from "@/providers/invitation-provider";
 
 /**
  * Custom hook to access wedding configuration
@@ -13,7 +12,5 @@ import staticConfig from "@/config/config";
  */
 export function useConfig() {
   const { config } = useInvitation();
-
-  // Return API config if available, otherwise static config
-  return config || staticConfig.data;
+  return config;
 }

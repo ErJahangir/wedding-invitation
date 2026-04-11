@@ -3,8 +3,8 @@ import { createRoot } from "react-dom/client";
 import { BrowserRouter } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./app.jsx";
-import "./index.css";
-import { InvitationProvider } from "./features/invitation";
+import { InvitationProvider } from "@/providers/invitation-provider";
+import "@/styles/global.css";
 
 // Create a client
 const queryClient = new QueryClient({

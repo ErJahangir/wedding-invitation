@@ -1,16 +1,16 @@
-import { useConfig } from "@/features/invitation/hooks/use-config";
 import { motion } from "framer-motion";
-import { Clock, MapPin, Calendar, Heart } from "lucide-react";
+import { Clock, MapPin, Calendar } from "lucide-react";
+import { useConfig } from "@/features/invitation/hooks/use-config";
 import { formatEventDate } from "@/utils/date";
 
-export default function Events() {
+export default function Agenda() {
   const config = useConfig();
   const agenda = config?.agenda || [];
 
   if (!agenda.length) return null;
 
   return (
-    <section id="event" className="py-24 relative overflow-hidden bg-transparent">
+    <section id="agenda" className="py-24 relative overflow-hidden bg-white">
       {/* Decorative background */}
       <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full blur-3xl -mr-32 -mt-32 opacity-50" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-gold-50 rounded-full blur-3xl -ml-32 -mb-32 opacity-50" />
@@ -23,7 +23,7 @@ export default function Events() {
             viewport={{ once: true }}
             className="text-emerald-600 font-semibold tracking-widest uppercase text-sm"
           >
-            Save the Date
+            Schedule of Events
           </motion.span>
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
@@ -31,11 +31,11 @@ export default function Events() {
             viewport={{ once: true }}
             className="text-4xl md:text-5xl font-serif text-emerald-950"
           >
-            Wedding Events
+            Wedding Timeline
           </motion.h2>
           <div className="flex items-center justify-center gap-4">
              <div className="h-[1px] w-12 bg-emerald-200" />
-             <Heart className="w-5 h-5 text-emerald-400 fill-emerald-100" />
+             <Calendar className="w-5 h-5 text-emerald-400" />
              <div className="h-[1px] w-12 bg-emerald-200" />
           </div>
         </div>
@@ -58,7 +58,7 @@ export default function Events() {
               >
                 {/* Content Side */}
                 <div className={`flex-1 w-full ${index % 2 === 0 ? "md:text-left" : "md:text-right"}`}>
-                  <div className={`glass-card p-8 rounded-[2rem] group hover:shadow-2xl transition-all duration-500 border-l-4 ${index % 2 === 0 ? "border-emerald-500" : "border-gold-500"}`}>
+                  <div className={`glass-card p-6 rounded-3xl group hover:shadow-2xl transition-all duration-500 border-l-4 ${index % 2 === 0 ? "border-emerald-500" : "border-gold-500"}`}>
                     <h3 className="text-2xl font-serif text-emerald-900 mb-2 group-hover:text-emerald-600 transition-colors">
                       {item.title}
                     </h3>
@@ -67,38 +67,38 @@ export default function Events() {
                        <span className="text-sm font-medium">{formatEventDate(item.date, "full")}</span>
                     </div>
                     
-                    <div className="space-y-4">
-                      <div className={`flex items-center gap-4 ${index % 2 === 0 ? "justify-start" : "md:justify-end"}`}>
-                        <div className="p-3 bg-emerald-50 rounded-2xl">
-                          <Clock className="w-5 h-5 text-emerald-600" />
+                    <div className="space-y-3">
+                      <div className={`flex items-center gap-3 ${index % 2 === 0 ? "justify-start" : "md:justify-end"}`}>
+                        <div className="p-2 bg-emerald-50 rounded-lg">
+                          <Clock className="w-4 h-4 text-emerald-600" />
                         </div>
-                        <span className="text-emerald-900 font-semibold">
+                        <span className="text-emerald-900 font-medium italic">
                           {item.start_time} - {item.end_time || "End"}
                         </span>
                       </div>
                       
-                      <div className={`flex items-center gap-4 ${index % 2 === 0 ? "justify-start" : "md:justify-end"}`}>
-                        <div className="p-3 bg-emerald-50 rounded-2xl">
-                          <MapPin className="w-5 h-5 text-emerald-600" />
+                      <div className={`flex items-center gap-3 ${index % 2 === 0 ? "justify-start" : "md:justify-end"}`}>
+                        <div className="p-2 bg-emerald-50 rounded-lg">
+                          <MapPin className="w-4 h-4 text-emerald-600" />
                         </div>
-                        <div className={`${index % 2 === 0 ? "text-left" : "md:text-right"}`}>
-                          <p className="text-emerald-900 font-medium">{item.location}</p>
-                          <p className="text-emerald-600/60 text-sm italic">{item.address}</p>
-                        </div>
+                        <span className="text-emerald-800 text-sm leading-relaxed">
+                          {item.location} <br />
+                          <span className="text-emerald-600/60">{item.address}</span>
+                        </span>
                       </div>
                     </div>
                   </div>
                 </div>
 
                 {/* Dot */}
-                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-12 h-12 rounded-full bg-white border-4 border-emerald-100 shadow-xl items-center justify-center z-20">
-                  <div className={`w-4 h-4 rounded-full ${index % 2 === 0 ? "bg-emerald-500" : "bg-gold-500"} animate-pulse`} />
+                <div className="hidden md:flex absolute left-1/2 -translate-x-1/2 w-10 h-10 rounded-full bg-white border-4 border-emerald-100 shadow-lg items-center justify-center z-20">
+                  <div className={`w-3 h-3 rounded-full ${index % 2 === 0 ? "bg-emerald-500" : "bg-gold-500"}`} />
                 </div>
 
-                {/* Number Side (Desktop only) */}
+                {/* Date Side (Desktop only) */}
                 <div className="flex-1 hidden md:block">
                    <div className={`${index % 2 === 0 ? "text-right" : "text-left"}`}>
-                     <span className="text-6xl font-serif text-emerald-100/30 selection:bg-transparent">0{index + 1}</span>
+                     <span className="text-4xl font-serif text-emerald-100/50 block">0{index + 1}</span>
                    </div>
                 </div>
               </motion.div>

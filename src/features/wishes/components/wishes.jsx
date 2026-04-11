@@ -16,17 +16,17 @@ import {
 } from "lucide-react";
 import { useState, useEffect, useRef } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { formatEventDate } from "@/lib/format-event-date";
+import { formatEventDate } from "@/utils/date";
 import { useInvitation } from "@/features/invitation";
 import {
   fetchWishes,
   createWish,
   checkWishSubmitted,
-} from "@/services/api";
-import { getGuestName } from "@/lib/invitation-storage";
+} from "@/api/invitation.api";
+import { getGuestName } from "@/utils/storage";
 
 export default function Wishes() {
-  const { uid } = useInvitation();
+  const { config } = useInvitation();
   const queryClient = useQueryClient();
   const [showConfetti, setShowConfetti] = useState(false);
   const [newWish, setNewWish] = useState("");
@@ -51,21 +51,20 @@ export default function Wishes() {
   // Check if guest has already submitted a wish
   useEffect(() => {
     const checkSubmissionStatus = async () => {
-      if (uid && guestName && isNameFromInvitation) {
+      if (guestName && isNameFromInvitation) {
         try {
-          const response = await checkWishSubmitted(uid, guestName);
+          const response = await checkWishSubmitted(guestName);
           if (response.success && response.hasSubmitted) {
             setHasSubmittedWish(true);
           }
         } catch (error) {
           console.error("Error checking wish status:", error);
-          // Don't show error to user, just let them try to submit
         }
       }
     };
 
     checkSubmissionStatus();
-  }, [uid, guestName, isNameFromInvitation]);
+  }, [guestName, isNameFromInvitation]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -96,25 +95,24 @@ export default function Wishes() {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["wishes", uid],
+    queryKey: ["wishes"],
     queryFn: async () => {
-      const response = await fetchWishes(uid);
+      const response = await fetchWishes();
       if (response.success) {
         return response.data;
       }
       throw new Error("Failed to load wishes");
     },
-    enabled: !!uid,
     staleTime: 30 * 1000, // 30 seconds
   });
 
   // Mutation for creating wishes
   const createWishMutation = useMutation({
-    mutationFn: (wishData) => createWish(uid, wishData),
+    mutationFn: (wishData) => createWish(wishData),
     onSuccess: (response) => {
       if (response.success) {
         // Optimistically update the cache
-        queryClient.setQueryData(["wishes", uid], (old = []) => [
+        queryClient.setQueryData(["wishes"], (old = []) => [
           response.data,
           ...old,
         ]);
@@ -150,11 +148,6 @@ export default function Wishes() {
     e.preventDefault();
     if (!newWish.trim() || !guestName.trim()) return;
 
-    if (!uid) {
-      setErrorMessage("Invitation not found. Please check your URL.");
-      setTimeout(() => setErrorMessage(""), 5000);
-      return;
-    }
 
     // Clear any previous errors
     setErrorMessage("");
@@ -182,7 +175,7 @@ export default function Wishes() {
   };
   return (
     <>
-      <section id="wishes" className="min-h-screen relative overflow-hidden">
+      <section id="wishes" className="min-h-screen relative overflow-hidden bg-transparent">
         {showConfetti && <Confetti recycle={false} numberOfPieces={200} />}
         <div className="container mx-auto px-4 py-20 relative z-10">
           {/* Section Header */}
@@ -196,18 +189,18 @@ export default function Wishes() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="inline-block text-rose-500 font-medium"
+              className="inline-block text-emerald-600 font-semibold tracking-widest uppercase text-sm"
             >
-              Send your blessings and best wishes
+              Sign our Guestbook
             </motion.span>
 
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
-              className="text-4xl md:text-5xl font-serif text-gray-800"
+              className="text-4xl md:text-5xl font-serif text-emerald-950"
             >
-              Messages and blessings
+              Messages & Blessings
             </motion.h2>
 
             {/* Decorative Divider */}
@@ -218,9 +211,9 @@ export default function Wishes() {
               className="flex flex-col items-center justify-center gap-4 pt-4"
             >
               <div className="flex items-center gap-4">
-                <div className="h-[1px] w-12 bg-rose-200" />
-                <MessageCircle className="w-5 h-5 text-rose-400" />
-                <div className="h-[1px] w-12 bg-rose-200" />
+                <div className="h-[1px] w-12 bg-emerald-200" />
+                <MessageCircle className="w-5 h-5 text-emerald-400" />
+                <div className="h-[1px] w-12 bg-emerald-200" />
               </div>
             </motion.div>
           </motion.div>
@@ -269,10 +262,10 @@ export default function Wishes() {
                       whileTap={{ scale: 0.98 }}
                     >
                       {/* Background gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-rose-100/60 to-pink-100/60 rounded-2xl transform transition-transform group-hover:scale-[1.02] duration-300" />
+                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/60 to-gold-100/60 rounded-[2rem] transform transition-transform group-hover:scale-[1.02] duration-300" />
 
                       {/* Card content */}
-                      <div className="relative h-full backdrop-blur-sm bg-white/90 p-4 rounded-2xl border border-rose-100/50 shadow-md flex flex-col">
+                      <div className="relative h-full glass-card p-6 rounded-[2rem] border-emerald-100/50 shadow-md flex flex-col">
                         {/* Header */}
                         <div className="flex items-center space-x-3 mb-3">
                           {/* Avatar */}
@@ -626,7 +619,7 @@ export default function Wishes() {
                     ${
                       createWishMutation.isPending
                         ? "bg-gray-400 cursor-not-allowed"
-                        : "bg-rose-500 hover:bg-rose-600"
+                        : "bg-emerald-600 hover:bg-emerald-700 shadow-lg shadow-emerald-200"
                     }`}
                     >
                       {createWishMutation.isPending ? (

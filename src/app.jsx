@@ -1,41 +1,38 @@
-// src/App.jsx
-import { useState, lazy, Suspense, useEffect } from "react";
+import { useState, lazy, Suspense } from "react";
+import { useLocation } from "react-router-dom";
 import { AnimatePresence } from "framer-motion";
 import { Helmet, HelmetProvider } from "react-helmet-async";
 import { Heart } from "lucide-react";
 import { useInvitation } from "@/features/invitation";
 import { useAudio } from "@/hooks/use-audio";
-import staticConfig from "@/config/config";
 
 // Lazy load components for better performance
 const Layout = lazy(() => import("@/components/layout/layout"));
 const MainContent = lazy(
   () => import("@/features/invitation/components/main-content"),
 );
+const AdminDashboard = lazy(() => import("@/features/admin/admin-dashboard"));
 const LandingPage = lazy(
   () => import("@/features/invitation/components/landing-page"),
 );
 
 function App() {
+  const location = useLocation();
+  const isAdmin = location.pathname === "/admin";
   const [isInvitationOpen, setIsInvitationOpen] = useState(false);
   const { config, isLoading, error } = useInvitation();
   // Use config from API if available, otherwise fall back to static config
-  const activeConfig = config || staticConfig.data;
+  const activeConfig = config;
   const audioControls = useAudio({
     src: activeConfig?.audio?.src || "/audio/fulfilling-humming.mp3",
     loop: activeConfig?.audio?.loop !== false,
   });
-  useEffect(() => {
-    if (config) {
-      window.history.replaceState({}, "", "/");
-    }
-  }, [config]);
   const handleOpenInvitation = async () => {
     await audioControls.play();
     setIsInvitationOpen(true);
   };
 
-  if (isLoading) {
+  if (isLoading || !activeConfig) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-rose-50 to-pink-50">
         <div className="text-center">
@@ -121,7 +118,9 @@ function App() {
         }
       >
         <AnimatePresence mode="wait">
-          {!isInvitationOpen ? (
+          {isAdmin ? (
+            <AdminDashboard />
+          ) : !isInvitationOpen ? (
             <LandingPage onOpenInvitation={handleOpenInvitation} />
           ) : (
             <Layout audioControls={audioControls}>

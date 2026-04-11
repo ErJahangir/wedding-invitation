@@ -1,77 +1,141 @@
 import { useConfig } from "@/features/invitation/hooks/use-config";
-import { formatEventDate } from "@/lib/format-event-date";
+import { formatEventDate } from "@/utils/date";
 import { motion } from "framer-motion";
-import { Calendar, Clock } from "lucide-react";
+import { Calendar, Clock, Flower2 } from "lucide-react";
 
+/**
+ * Premium Landing Page (Envelope Cover)
+ * Represents the traditional invitation cover with sacred elements.
+ */
 const LandingPage = ({ onOpenInvitation }) => {
   const config = useConfig();
+
+  if (!config) return null;
 
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="min-h-screen relative overflow-hidden"
+      className="min-h-screen relative overflow-hidden bg-[radial-gradient(circle_at_top_left,_var(--tw-gradient-stops))] from-emerald-950 via-emerald-900 to-emerald-950"
     >
-      {/* Decorative Background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-amber-50 via-rose-50/30 to-amber-50" />
-      <div className="absolute top-0 right-0 w-64 h-64 md:w-96 md:h-96 bg-yellow-200/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
-      <div className="absolute bottom-0 left-0 w-64 h-64 md:w-96 md:h-96 bg-orange-200/20 rounded-full blur-3xl -translate-x-1/2 translate-y-1/2" />
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 opacity-20 pointer-events-none">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-gold-400 rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2" />
+        <div className="absolute bottom-0 left-0 w-96 h-96 bg-emerald-400 rounded-full blur-[120px] translate-y-1/2 -translate-x-1/2" />
+      </div>
 
       <div className="relative z-10 min-h-screen flex flex-col items-center justify-center px-4">
         <motion.div
-          initial={{ y: 20, opacity: 0 }}
+          initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.8 }}
-          className="w-full max-w-md"
+          transition={{ duration: 1.2, ease: "easeOut" }}
+          className="w-full max-w-lg"
         >
-          <div className="backdrop-blur-sm bg-white/70 p-6 sm:p-8 md:p-10 rounded-2xl border border-amber-200 shadow-xl">
-            {/* Heading */}
-            <div className="text-center mb-6">
-              <h2 className="text-amber-700 font-semibold tracking-widest text-sm">
+          <div className="glass-card p-8 sm:p-12 rounded-[3rem] border-white/10 shadow-2xl relative group overflow-hidden">
+            {/* Texture Overlay */}
+            <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/cream-paper.png')]" />
+
+            {/* Couple Image on Cover */}
+            <motion.div 
+               initial={{ scale: 0, opacity: 0 }}
+               animate={{ scale: 1, opacity: 1 }}
+               transition={{ delay: 0.4, type: "spring", stiffness: 100 }}
+               className="flex justify-center mb-8 relative z-10"
+            >
+               <div className="w-28 h-28 sm:w-36 sm:h-36 rounded-full p-1.5 bg-gradient-to-tr from-gold-400 via-emerald-600 to-gold-400 shadow-2xl">
+                  <div className="w-full h-full rounded-full overflow-hidden border-4 border-white">
+                     <img 
+                       src={config.coupleImage || "/couple.png"} 
+                       alt="Couple"
+                       className="w-full h-full object-cover"
+                     />
+                  </div>
+               </div>
+            </motion.div>
+
+            {/* Sacred Mantra */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.5 }}
+              className="text-center mb-10"
+            >
+              <h2 className="text-gold-600 font-serif tracking-[0.2em] text-lg mb-2">
                 || श्री गणेशाय नमः ||
               </h2>
-            </div>
-
-            {/* Date */}
-            <div className="flex flex-col gap-4 mb-6 sm:mb-8 items-center">
-              <div className="inline-flex flex-col items-center space-y-1 bg-white/90 px-6 py-3 rounded-xl">
-                <Calendar className="w-5 h-5 text-amber-500" />
-                <p className="text-gray-800 font-medium">Shubh Vivah Tithi</p>
-                <p className="text-gray-700">{formatEventDate(config.date)}</p>
+              <div className="flex justify-center">
+                <Flower2 className="w-6 h-6 text-gold-500/50 animate-pulse" />
               </div>
+            </motion.div>
 
-              <div className="inline-flex flex-col items-center space-y-1 bg-white/90 px-6 py-3 rounded-xl">
-                <Clock className="w-5 h-5 text-amber-500" />
-                <p className="text-gray-800 font-medium">Muhurat</p>
-                <p className="text-gray-700">{config.time}</p>
-              </div>
-            </div>
-
-            {/* Couple Names */}
-            <div className="text-center space-y-3">
-              <p className="text-gray-500 text-sm">With blessings of elders</p>
-
-              <h1 className="text-3xl sm:text-4xl md:text-4xl font-serif text-gray-800 leading-tight">
-                {config.groomName}
-                <span className="text-amber-600 mx-3">विवाह</span>
-                {config.brideName}
-              </h1>
-
-              <div className="h-px w-20 mx-auto bg-amber-300" />
-            </div>
-
-            {/* Button */}
-            <div className="mt-8">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onOpenInvitation}
-                className="w-full bg-amber-600 text-white px-8 py-3 rounded-xl font-medium shadow-lg hover:bg-amber-700 transition-all duration-200"
+            {/* Main Content */}
+            <div className="text-center space-y-8 mb-12">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.8 }}
+                className="space-y-2"
               >
-                View Shubh Vivah
-              </motion.button>
+                <p className="text-emerald-900/60 uppercase tracking-[0.3em] text-xs font-bold">
+                  With the blessings of elders
+                </p>
+                <div className="h-[1px] w-12 bg-gold-300 mx-auto mt-4" />
+              </motion.div>
+
+              <motion.h1
+                initial={{ scale: 0.9, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ delay: 1 }}
+                className="text-4xl sm:text-5xl md:text-6xl font-serif text-emerald-950 leading-tight"
+              >
+                {config.groomName}
+                <div className="flex items-center justify-center gap-4 my-2">
+                  <span className="h-[1px] flex-1 bg-emerald-100" />
+                  <span className="text-gold-600 italic font-serif text-2xl lowercase">
+                    wed
+                  </span>
+                  <span className="h-[1px] flex-1 bg-emerald-100" />
+                </div>
+                {config.brideName}
+              </motion.h1>
+
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.2 }}
+                className="flex flex-wrap items-center justify-center gap-6"
+              >
+                <div className="flex items-center gap-2 text-emerald-800 font-medium">
+                  <Calendar className="w-4 h-4 text-gold-600" />
+                  <span>{formatEventDate(config.date, "short")}</span>
+                </div>
+                <div className="flex items-center gap-2 text-emerald-800 font-medium">
+                  <Clock className="w-4 h-4 text-gold-600" />
+                  <span>{config.time}</span>
+                </div>
+              </motion.div>
             </div>
+
+            {/* Action Button */}
+            <motion.div
+              initial={{ y: 20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              transition={{ delay: 1.4 }}
+              className="relative z-20"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05, backgroundColor: "#064e3b" }}
+                whileTap={{ scale: 0.95 }}
+                onClick={onOpenInvitation}
+                className="w-full bg-emerald-900 text-gold-400 border border-gold-500/30 px-8 py-4 rounded-2xl font-bold tracking-widest uppercase transition-all duration-300 shadow-xl"
+              >
+                View Sacred Invitation
+              </motion.button>
+              <p className="mt-4 text-xs text-emerald-800/40 text-center uppercase tracking-tighter">
+                Click to open your invitation
+              </p>
+            </motion.div>
           </div>
         </motion.div>
       </div>

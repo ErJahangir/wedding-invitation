@@ -8,7 +8,7 @@ import {
   Gift,
   MessageCircleHeart,
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/cn";
 import { useConfig } from "@/features/invitation/hooks/use-config";
 
 const baseMenuItems = [

@@ -11,7 +11,7 @@ import {
   Apple,
   Calendar as CalendarIcon
 } from 'lucide-react';
-import { formatEventDate } from '@/lib/format-event-date';
+import { formatEventDate } from '@/utils/date';
 
 const Modal = ({ isOpen, onClose, children }) => {
   return (
