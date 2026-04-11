@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@400;700&family=Outfit:wght@300;400;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -6,17 +6,17 @@
 
 @layer base {
   :root {
-    --background: 150 20% 98%;
-    --foreground: 160 30% 10%;
+    --background: 45 30% 98%; /* Creamy White */
+    --foreground: 0 100% 10%; /* Very Deep Maroon */
     
-    --primary: 158 80% 25%; /* Deep Emerald */
-    --primary-foreground: 150 20% 98%;
+    --primary: 0 100% 25%; /* Royal Maroon */
+    --primary-foreground: 45 40% 98%;
     
-    --accent: 45 90% 50%; /* Luxurious Gold */
-    --accent-foreground: 160 30% 10%;
+    --accent: 45 90% 50%; /* Traditional Gold */
+    --accent-foreground: 0 100% 10%;
 
     --card: 0 0% 100%;
-    --card-foreground: 160 30% 10%;
+    --card-foreground: 0 0% 10%;
 
     --radius: 1rem;
   }
@@ -26,22 +26,30 @@
     font-family: 'Outfit', sans-serif;
   }
 
-  h1, h2, h3, h4, .font-serif {
+  h1, h2, h3, h4, .font-majestic {
+    font-family: 'Cinzel', serif;
+  }
+  
+  .font-serif {
     font-family: 'Playfair Display', serif;
   }
 }
 
 @layer components {
   .glass-card {
-    @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+    @apply bg-white/80 backdrop-blur-md border border-heritage-gold/20 shadow-xl;
   }
   
-  .emerald-gradient {
-    @apply bg-gradient-to-br from-emerald-900 via-emerald-800 to-teal-900;
+  .maroon-gradient {
+    @apply bg-gradient-to-br from-heritage-maroon via-red-900 to-black;
   }
 
   .gold-text {
-    @apply bg-gradient-to-r from-gold-400 via-gold-600 to-gold-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-heritage-gold via-yellow-500 to-heritage-gold bg-clip-text text-transparent;
+  }
+
+  .mandala-pattern {
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 0l10 20h-20l10-20zm10 20l20 10-20 10v-20zm-10 20l-10 20-10-20h20zm-20-10l-20-10 20-10v20z' fill='%23800000' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
   }
 }
 
@@ -67,4 +75,29 @@
 @keyframes reveal {
   from { opacity: 0; transform: translateY(50px) scale(0.9); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* Swiper Custom Styles */
+.wishes-swiper {
+  padding-bottom: 50px !important;
+}
+
+.wishes-swiper .swiper-pagination-bullet {
+  background: #800000 !important;
+  opacity: 0.3;
+  transition: all 0.3s ease;
+}
+
+.wishes-swiper .swiper-pagination-bullet-active {
+  background: #D4AF37 !important;
+  opacity: 1;
+  width: 24px !important;
+  border-radius: 4px !important;
+}
+
+.wishes-swiper .swiper-slide {
+  height: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

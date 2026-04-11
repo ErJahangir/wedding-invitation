@@ -43,7 +43,6 @@ export function InvitationProvider({ children }) {
     refetchOnMount: false,
     refetchOnWindowFocus: false,
   });
-  console.log(config, "=====");
 
   return (
     <InvitationContext.Provider

@@ -26,7 +26,7 @@ export default function Location() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               viewport={{ once: true }}
-              className="inline-block text-emerald-600 font-semibold tracking-widest uppercase text-sm"
+              className="inline-block text-heritage-maroon font-semibold tracking-widest uppercase text-sm"
             >
               Ceremony Venue
             </motion.span>
@@ -36,7 +36,7 @@ export default function Location() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-serif text-emerald-950"
+              className="text-4xl md:text-5xl font-serif text-heritage-maroon"
             >
               Location & Directions
             </motion.h2>
@@ -49,9 +49,9 @@ export default function Location() {
               viewport={{ once: true }}
               className="flex items-center justify-center gap-4 pt-4"
             >
-              <div className="h-[1px] w-12 bg-gold-200" />
-              <MapPin className="w-6 h-6 text-gold-500/70" />
-              <div className="h-[1px] w-12 bg-gold-200" />
+              <div className="h-[1px] w-12 bg-heritage-gold/30" />
+              <MapPin className="w-6 h-6 text-heritage-gold" />
+              <div className="h-[1px] w-12 bg-heritage-gold/30" />
             </motion.div>
           </motion.div>
 
@@ -85,49 +85,49 @@ export default function Location() {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <div className="bg-white/80 backdrop-blur-md rounded-[3rem] p-8 sm:p-12 shadow-xl border border-emerald-50">
-                <h3 className="text-3xl font-serif text-emerald-950 mb-8 pb-4 border-b border-emerald-50">
+              <div className="bg-white/90 backdrop-blur-md rounded-[3rem] p-8 sm:p-12 shadow-xl border border-heritage-gold/10">
+                <h3 className="text-3xl font-serif text-heritage-maroon mb-8 pb-4 border-b border-heritage-maroon/10">
                   {config.location}
                 </h3>
 
                 <div className="space-y-6">
                   <div className="flex items-start space-x-5">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                      <MapPin className="w-5 h-5 text-emerald-700" />
+                    <div className="w-10 h-10 rounded-full bg-heritage-maroon/5 flex items-center justify-center flex-shrink-0">
+                      <MapPin className="w-5 h-5 text-heritage-maroon" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-emerald-900/40 uppercase tracking-widest mb-1">
+                      <p className="text-xs font-bold text-heritage-maroon/40 uppercase tracking-widest mb-1">
                         Address
                       </p>
-                      <p className="text-emerald-800 font-medium leading-relaxed">
+                      <p className="text-heritage-maroon/80 font-medium leading-relaxed">
                         {config.address}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-5">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                      <CalendarCheck className="w-5 h-5 text-emerald-700" />
+                    <div className="w-10 h-10 rounded-full bg-heritage-maroon/5 flex items-center justify-center flex-shrink-0">
+                      <CalendarCheck className="w-5 h-5 text-heritage-maroon" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-emerald-900/40 uppercase tracking-widest mb-1">
+                      <p className="text-xs font-bold text-heritage-maroon/40 uppercase tracking-widest mb-1">
                         Date
                       </p>
-                      <p className="text-emerald-800 font-medium">
+                      <p className="text-heritage-maroon/80 font-medium">
                         {formatEventDate(config.date, "full")}
                       </p>
                     </div>
                   </div>
 
                   <div className="flex items-center space-x-5">
-                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
-                      <Clock className="w-5 h-5 text-emerald-700" />
+                    <div className="w-10 h-10 rounded-full bg-heritage-maroon/5 flex items-center justify-center flex-shrink-0">
+                      <Clock className="w-5 h-5 text-heritage-maroon" />
                     </div>
                     <div>
-                      <p className="text-xs font-bold text-emerald-900/40 uppercase tracking-widest mb-1">
+                      <p className="text-xs font-bold text-heritage-maroon/40 uppercase tracking-widest mb-1">
                         Time
                       </p>
-                      <p className="text-emerald-800 font-medium">
+                      <p className="text-heritage-maroon/80 font-medium">
                         {config.time}
                       </p>
                     </div>
@@ -139,18 +139,17 @@ export default function Location() {
                       target="_blank"
                       rel="noopener noreferrer"
                       whileHover={{
-                        scale: 1.05,
-                        backgroundColor: "#064e3b",
-                        color: "#fbbf24",
+                        scale: 1.02,
+                        backgroundColor: "#800000",
                       }}
-                      whileTap={{ scale: 0.95 }}
-                      className="w-full flex items-center justify-center gap-3 bg-emerald-900 text-gold-400 font-bold py-5 rounded-2xl shadow-lg transition-all"
+                      whileTap={{ scale: 0.98 }}
+                      className="w-full flex items-center justify-center gap-3 bg-heritage-maroon text-heritage-gold font-bold py-5 rounded-2xl shadow-lg shadow-maroon-900/20 transition-all"
                     >
                       <ExternalLink className="w-5 h-5" />
-                      <span>View on Maps</span>
+                      <span>View on Google Maps</span>
                     </motion.a>
-                    <p className="text-center text-[10px] text-emerald-900/40 uppercase tracking-tighter mt-3">
-                      Click to view directions on Google Maps
+                    <p className="text-center text-[10px] text-heritage-maroon/40 uppercase tracking-widest mt-4 font-bold">
+                      Click to view directions on your device
                     </p>
                   </div>
                 </div>

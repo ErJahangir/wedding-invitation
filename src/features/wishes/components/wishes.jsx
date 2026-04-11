@@ -1,6 +1,5 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Confetti from "react-confetti";
-import Marquee from "@/components/ui/marquee";
 import {
   Calendar,
   Clock,
@@ -24,6 +23,13 @@ import {
   checkWishSubmitted,
 } from "@/api/invitation.api";
 import { getGuestName } from "@/utils/storage";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Autoplay, Pagination, Navigation } from "swiper/modules";
+
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
 
 export default function Wishes() {
   const { config } = useInvitation();
@@ -148,7 +154,6 @@ export default function Wishes() {
     e.preventDefault();
     if (!newWish.trim() || !guestName.trim()) return;
 
-
     // Clear any previous errors
     setErrorMessage("");
 
@@ -173,9 +178,13 @@ export default function Wishes() {
         return null;
     }
   };
+
   return (
     <>
-      <section id="wishes" className="min-h-screen relative overflow-hidden bg-transparent">
+      <section
+        id="wishes"
+        className="min-h-screen relative overflow-hidden bg-transparent"
+      >
         {showConfetti && <Confetti recycle={false} numberOfPieces={200} />}
         <div className="container mx-auto px-4 py-20 relative z-10">
           {/* Section Header */}
@@ -229,7 +238,9 @@ export default function Wishes() {
 
             {error && !isLoading && (
               <div className="text-center py-8">
-                <p className="text-rose-600">{error?.message || String(error)}</p>
+                <p className="text-rose-600">
+                  {error?.message || String(error)}
+                </p>
               </div>
             )}
 
@@ -243,78 +254,91 @@ export default function Wishes() {
             )}
 
             {!isLoading && wishes && wishes.length > 0 && (
-              <AnimatePresence>
-                <Marquee
-                  pauseOnHover={true}
-                  repeat={2}
-                  className="[--duration:60s] [--gap:1rem] py-2"
+              <div className="relative group/slider mandala-pattern">
+                <Swiper
+                  modules={[Autoplay, Pagination, Navigation]}
+                  spaceBetween={16}
+                  slidesPerView={1}
+                  centeredSlides={true}
+                  loop={wishes.length > 1}
+                  autoplay={{
+                    delay: 3500,
+                    disableOnInteraction: false,
+                  }}
+                  pagination={{
+                    clickable: true,
+                    dynamicBullets: true,
+                  }}
+                  className="wishes-swiper mt-4 px-4"
                 >
-                  {wishes.map((wish, index) => (
-                    <motion.div
-                      key={wish.id}
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -20 }}
-                      transition={{ delay: index * 0.1 }}
-                      className="group relative w-[300px] h-[160px] flex-shrink-0 cursor-pointer"
-                      onClick={() => setSelectedWish(wish)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      {/* Background gradient */}
-                      <div className="absolute inset-0 bg-gradient-to-br from-emerald-100/60 to-gold-100/60 rounded-[2rem] transform transition-transform group-hover:scale-[1.02] duration-300" />
+                  {wishes.map((wish) => (
+                    <SwiperSlide key={wish.id}>
+                      <motion.div
+                        className="group relative w-full h-[180px]"
+                        onClick={() => setSelectedWish(wish)}
+                        whileHover={{ scale: 1.02, y: -5 }}
+                        whileTap={{ scale: 0.98 }}
+                      >
+                        {/* Background gradient */}
+                        <div className="absolute inset-0 bg-gradient-to-br from-heritage-maroon/10 to-heritage-gold/20 rounded-[2rem] transform transition-all group-hover:scale-[1.02] group-hover:from-heritage-maroon/20 group-hover:to-heritage-gold/30 duration-300 shadow-sm border border-heritage-gold/20" />
 
-                      {/* Card content */}
-                      <div className="relative h-full glass-card p-6 rounded-[2rem] border-emerald-100/50 shadow-md flex flex-col">
-                        {/* Header */}
-                        <div className="flex items-center space-x-3 mb-3">
-                          {/* Avatar */}
-                          <div className="flex-shrink-0">
-                            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-rose-400 to-pink-500 flex items-center justify-center text-white text-sm font-semibold shadow-sm">
-                              {wish.name[0].toUpperCase()}
+                        {/* Card content */}
+                        <div className="relative h-full glass-card p-6 rounded-[2rem] border-heritage-maroon/10 shadow-md flex flex-col backdrop-blur-md">
+                          {/* Header */}
+                          <div className="flex items-center space-x-3 mb-3">
+                            {/* Avatar */}
+                            <div className="flex-shrink-0">
+                              <div className="w-10 h-10 rounded-full bg-gradient-to-br from-heritage-maroon to-heritage-ruby flex items-center justify-center text-white text-sm font-bold shadow-md transform group-hover:rotate-12 transition-transform">
+                                {wish.name[0].toUpperCase()}
+                              </div>
                             </div>
+
+                            {/* Name, Time, and Attendance */}
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center space-x-2">
+                                <h4 className="font-bold text-heritage-maroon text-sm truncate max-w-[140px]">
+                                  {wish.name}
+                                </h4>
+                                {getAttendanceIcon(wish.attendance)}
+                              </div>
+                              <div className="flex items-center space-x-1 text-heritage-maroon/50 text-xs mt-0.5 font-bold">
+                                <Clock className="w-3 h-3 flex-shrink-0" />
+                                <time className="truncate">
+                                  {formatEventDate(
+                                    wish.created_at,
+                                    "short",
+                                    true,
+                                  )}
+                                </time>
+                              </div>
+                            </div>
+
+                            {/* New badge */}
+                            {Date.now() - new Date(wish.created_at).getTime() <
+                              3600000 && (
+                              <span className="flex-shrink-0 px-2.5 py-1 rounded-full bg-heritage-maroon text-white text-[10px] font-bold uppercase tracking-wider">
+                                New
+                              </span>
+                            )}
                           </div>
 
-                          {/* Name, Time, and Attendance */}
-                          <div className="flex-1 min-w-0">
-                            <div className="flex items-center space-x-2">
-                              <h4 className="font-semibold text-gray-800 text-sm truncate max-w-[140px]">
-                                {wish.name}
-                              </h4>
-                              {getAttendanceIcon(wish.attendance)}
-                            </div>
-                            <div className="flex items-center space-x-1 text-gray-400 text-xs mt-0.5">
-                              <Clock className="w-3 h-3 flex-shrink-0" />
-                              <time className="truncate">
-                                {formatEventDate(
-                                  wish.created_at,
-                                  "short",
-                                  true,
-                                )}
-                              </time>
-                            </div>
+                          {/* Message */}
+                          <div className="flex-1 overflow-hidden mt-2">
+                            <p className="text-heritage-maroon/80 text-[13px] leading-relaxed line-clamp-3 italic font-medium">
+                              "{wish.message}"
+                            </p>
                           </div>
 
-                          {/* New badge */}
-                          {Date.now() - new Date(wish.created_at).getTime() <
-                            3600000 && (
-                            <span className="flex-shrink-0 px-2 py-0.5 rounded-full bg-rose-100 text-rose-600 text-xs font-medium">
-                              New
-                            </span>
-                          )}
+                          {/* Card Footer Decoration */}
+                          <div className="absolute right-6 bottom-4 opacity-5 group-hover:opacity-10 transition-opacity">
+                            <MessageCircle className="w-8 h-8 text-heritage-maroon" />
+                          </div>
                         </div>
-
-                        {/* Message */}
-                        <div className="flex-1 overflow-hidden">
-                          <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
-                            {wish.message}
-                          </p>
-                        </div>
-                      </div>
-                    </motion.div>
+                      </motion.div>
+                    </SwiperSlide>
                   ))}
-                </Marquee>
-              </AnimatePresence>
+                </Swiper>
+              </div>
             )}
           </div>
 

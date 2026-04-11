@@ -32,12 +32,14 @@ export default function Story() {
   return (
     <section
       id="union"
-      className="py-24 bg-emerald-950 text-white overflow-hidden relative"
+      className="py-24 bg-heritage-cream text-heritage-maroon overflow-hidden relative"
     >
       {/* Decorative Ornaments */}
-      <div className="absolute top-0 left-0 w-full h-full overflow-hidden opacity-10 pointer-events-none">
-        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full border-[40px] border-emerald-500" />
-        <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full border-[40px] border-gold-500" />
+      <div className="absolute inset-0 mandala-pattern opacity-[0.03] pointer-events-none" />
+
+      <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute -top-20 -left-20 w-80 h-80 rounded-full border-[40px] border-heritage-maroon/5" />
+        <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full border-[40px] border-heritage-maroon/5" />
       </div>
 
       <div className="container mx-auto px-4 relative z-10">
@@ -46,7 +48,7 @@ export default function Story() {
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
-            className="text-gold-400 font-semibold tracking-widest uppercase text-sm"
+            className="text-heritage-maroon font-semibold tracking-widest uppercase text-xs"
           >
             A Journey of Tradition
           </motion.span>
@@ -54,7 +56,7 @@ export default function Story() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-5xl font-serif"
+            className="text-4xl md:text-5xl font-serif text-heritage-maroon"
           >
             A Sacred Union
           </motion.h2>
@@ -63,7 +65,9 @@ export default function Story() {
             whileInView={{ scale: 1 }}
             className="flex items-center justify-center gap-4 py-4"
           >
-            <Flower2 className="w-8 h-8 text-gold-500" />
+            <div className="h-[1px] w-12 bg-heritage-maroon/20" />
+            <Flower2 className="w-8 h-8 text-heritage-gold shadow-sm" />
+            <div className="h-[1px] w-12 bg-heritage-maroon/20" />
           </motion.div>
         </div>
 
@@ -77,25 +81,28 @@ export default function Story() {
               transition={{ delay: index * 0.2 }}
               className="relative group h-full "
             >
-              <div className="flex flex-col h-full bg-white/5 backdrop-blur-sm p-8 rounded-[3rem] border border-white/10 hover:border-gold-500/50 transition-all duration-500">
-                <div className="relative mb-8 overflow-hidden rounded-full w-40 h-40 mx-auto border-4 border-gold-500/30 group-hover:border-gold-500 transition-colors">
+              <div className="flex flex-col h-full bg-white/60 backdrop-blur-xl p-8 rounded-[3rem] border border-heritage-maroon/10 hover:border-heritage-gold/50 transition-all duration-500 hover:shadow-xl hover:shadow-heritage-maroon/5">
+                <div className="relative mb-8 overflow-hidden rounded-full w-40 h-40 mx-auto border-4 border-heritage-maroon/10 group-hover:border-heritage-gold transition-all duration-500 shadow-lg">
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+                    className="w-full h-full object-cover transition-all duration-1000 scale-110 group-hover:scale-100"
                   />
-                  <div className="absolute inset-0 bg-gold-900/20 group-hover:bg-transparent transition-colors" />
+                  <div className="absolute inset-0 bg-heritage-maroon/5 group-hover:bg-transparent transition-colors duration-500" />
                 </div>
 
                 <div className="text-center flex-grow">
-                  <span className="text-gold-500 font-bold tracking-widest text-sm mb-2 block uppercase">
+                  <span className="text-heritage-gold font-bold tracking-widest text-xs mb-2 block uppercase">
                     {item.label}
                   </span>
-                  <h3 className="text-2xl font-serif mb-4 group-hover:text-gold-400 transition-colors uppercase tracking-tight">
+                  <h3 className="text-2xl font-majestic mb-4 text-heritage-maroon group-hover:text-heritage-gold transition-colors uppercase tracking-wider">
                     {item.title}
                   </h3>
-                  <p className="text-emerald-100/60 leading-relaxed italic line-clamp-4">
-                    "{item.description}"
+                  <div className="flex justify-center mb-4">
+                    <div className="h-0.5 w-8 bg-heritage-maroon/10 rounded-full" />
+                  </div>
+                  <p className="text-heritage-maroon/70 leading-relaxed italic line-clamp-4 font-medium">
+                    {item.description}
                   </p>
                 </div>
               </div>

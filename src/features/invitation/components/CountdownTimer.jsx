@@ -47,7 +47,7 @@ const CountdownTimer = ({ targetDate }) => {
   ];
 
   return (
-    <div className="flex justify-center gap-3 sm:gap-6 mt-8">
+    <div className="flex justify-center gap-3 sm:gap-4 mt-4">
       {items.map((item, index) => (
         <motion.div
           key={item.label}
@@ -56,9 +56,9 @@ const CountdownTimer = ({ targetDate }) => {
           transition={{ delay: index * 0.1 }}
           className="relative group"
         >
-          <div className="flex flex-col items-center justify-center w-20 h-24  bg-white/10 backdrop-blur-md rounded-2xl border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)] group-hover:border-gold-500/50 transition-all duration-500 overflow-hidden">
+          <div className="flex flex-col items-center justify-center w-16 h-20 sm:w-20 sm:h-24 bg-white/20 backdrop-blur-md rounded-2xl border border-heritage-gold/20 shadow-lg group-hover:border-heritage-maroon/50 transition-all duration-500 overflow-hidden">
             {/* Animated Bottom Glow */}
-            <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-gold-500 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+            <div className="absolute bottom-0 left-0 w-full h-[3px] bg-gradient-to-r from-transparent via-heritage-gold to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
             <AnimatePresence mode="wait">
               <motion.span
@@ -66,19 +66,19 @@ const CountdownTimer = ({ targetDate }) => {
                 initial={{ y: 10, opacity: 0 }}
                 animate={{ y: 0, opacity: 1 }}
                 exit={{ y: -10, opacity: 0 }}
-                className="text-3xl sm:text-4xl font-serif font-bold text-emerald-900"
+                className="text-3xl sm:text-4xl font-majestic font-bold text-heritage-maroon"
               >
                 {item.value.toString().padStart(2, "0")}
               </motion.span>
             </AnimatePresence>
 
-            <span className="text-[10px] sm:text-xs text-emerald-600/60 uppercase tracking-widest font-bold mt-2">
+            <span className="text-[10px] sm:text-xs text-heritage-gold font-bold uppercase tracking-wider mt-1 font-serif">
               {item.label}
             </span>
           </div>
 
           {/* Background Decorative Bloom */}
-          <div className="absolute -z-10 inset-0 bg-emerald-100/20 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full scale-75" />
+          <div className="absolute -z-10 inset-0 bg-heritage-maroon/5 blur-xl opacity-0 group-hover:opacity-100 transition-opacity rounded-full scale-75" />
         </motion.div>
       ))}
     </div>
