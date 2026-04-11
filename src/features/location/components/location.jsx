@@ -4,13 +4,15 @@ import { motion } from "framer-motion";
 import { formatEventDate } from "@/utils/date";
 
 export default function Location() {
-  const config = useConfig(); // Use hook to get config from API or fallback to static
+  const config = useConfig();
 
   return (
     <>
-      {/* Location section */}
-      <section id="location" className="min-h-screen relative overflow-hidden">
-        <div className="container mx-auto px-4 py-20 relative z-10">
+      <section
+        id="location"
+        className="py-24 relative overflow-hidden bg-transparent"
+      >
+        <div className="container mx-auto px-4 relative z-10">
           {/* Section Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -24,9 +26,9 @@ export default function Location() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
               viewport={{ once: true }}
-              className="inline-block text-rose-500 font-medium"
+              className="inline-block text-emerald-600 font-semibold tracking-widest uppercase text-sm"
             >
-              Lokasi Acara
+              Ceremony Venue
             </motion.span>
 
             <motion.h2
@@ -34,9 +36,9 @@ export default function Location() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
               viewport={{ once: true }}
-              className="text-4xl md:text-5xl font-serif text-gray-800"
+              className="text-4xl md:text-5xl font-serif text-emerald-950"
             >
-              Lokasi
+              Location & Directions
             </motion.h2>
 
             {/* Decorative Divider */}
@@ -47,21 +49,21 @@ export default function Location() {
               viewport={{ once: true }}
               className="flex items-center justify-center gap-4 pt-4"
             >
-              <div className="h-[1px] w-12 bg-rose-200" />
-              <MapPin className="w-5 h-5 text-rose-400" />
-              <div className="h-[1px] w-12 bg-rose-200" />
+              <div className="h-[1px] w-12 bg-gold-200" />
+              <MapPin className="w-6 h-6 text-gold-500/70" />
+              <div className="h-[1px] w-12 bg-gold-200" />
             </motion.div>
           </motion.div>
 
           {/* Location Content */}
-          <div className="max-w-6xl mx-auto grid md:grid-row-2 gap-8 items-center">
+          <div className="max-w-6xl mx-auto grid grid-cols-1 gap-12 items-center">
             {/* Map Container */}
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
-              className="w-full h-[400px] rounded-2xl overflow-hidden shadow-lg border-8 border-white"
+              className="w-full h-[450px] rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white relative z-10"
             >
               <iframe
                 src={config.maps_embed}
@@ -71,7 +73,7 @@ export default function Location() {
                 allowFullScreen=""
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                className="w-full h-full"
+                className="w-full h-full grayscale hover:grayscale-0 transition-all duration-700"
               ></iframe>
             </motion.div>
 
@@ -83,43 +85,73 @@ export default function Location() {
               viewport={{ once: true }}
               className="space-y-6"
             >
-              <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
-                <h3 className="text-2xl font-serif text-gray-800 mb-6">
+              <div className="bg-white/80 backdrop-blur-md rounded-[3rem] p-8 sm:p-12 shadow-xl border border-emerald-50">
+                <h3 className="text-3xl font-serif text-emerald-950 mb-8 pb-4 border-b border-emerald-50">
                   {config.location}
                 </h3>
 
-                <div className="space-y-4">
-                  <div className="flex items-start space-x-4">
-                    <MapPin className="w-5 h-5 text-rose-500 mt-1" />
-                    <p className="text-gray-600 flex-1">{config.address}</p>
+                <div className="space-y-6">
+                  <div className="flex items-start space-x-5">
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                      <MapPin className="w-5 h-5 text-emerald-700" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-emerald-900/40 uppercase tracking-widest mb-1">
+                        Address
+                      </p>
+                      <p className="text-emerald-800 font-medium leading-relaxed">
+                        {config.address}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="flex items-center space-x-4">
-                    <CalendarCheck className="w-5 h-5 text-rose-500" />
-                    <p className="text-gray-600">
-                      {formatEventDate(config.date)}
-                    </p>
+                  <div className="flex items-center space-x-5">
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                      <CalendarCheck className="w-5 h-5 text-emerald-700" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-emerald-900/40 uppercase tracking-widest mb-1">
+                        Date
+                      </p>
+                      <p className="text-emerald-800 font-medium">
+                        {formatEventDate(config.date, "full")}
+                      </p>
+                    </div>
                   </div>
 
-                  <div className="flex items-center space-x-4">
-                    <Clock className="w-5 h-5 text-rose-500" />
-                    <p className="text-gray-600">{config.time}</p>
+                  <div className="flex items-center space-x-5">
+                    <div className="w-10 h-10 rounded-full bg-emerald-50 flex items-center justify-center flex-shrink-0">
+                      <Clock className="w-5 h-5 text-emerald-700" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-emerald-900/40 uppercase tracking-widest mb-1">
+                        Time
+                      </p>
+                      <p className="text-emerald-800 font-medium">
+                        {config.time}
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Action Button - Full Width */}
-                  <div className="pt-4">
+                  <div className="pt-8">
                     <motion.a
                       href={config.maps_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      viewport={{ once: true }}
-                      className="w-full flex items-center justify-center gap-1.5 bg-white text-gray-600 px-4 py-2 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors text-sm"
+                      whileHover={{
+                        scale: 1.05,
+                        backgroundColor: "#064e3b",
+                        color: "#fbbf24",
+                      }}
+                      whileTap={{ scale: 0.95 }}
+                      className="w-full flex items-center justify-center gap-3 bg-emerald-900 text-gold-400 font-bold py-5 rounded-2xl shadow-lg transition-all"
                     >
-                      <ExternalLink className="w-3.5 h-3.5" />
-                      <span className="font-semibold">View Map</span>
+                      <ExternalLink className="w-5 h-5" />
+                      <span>View on Maps</span>
                     </motion.a>
+                    <p className="text-center text-[10px] text-emerald-900/40 uppercase tracking-tighter mt-3">
+                      Click to view directions on Google Maps
+                    </p>
                   </div>
                 </div>
               </div>
